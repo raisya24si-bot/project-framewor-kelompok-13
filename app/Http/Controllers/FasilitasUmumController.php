@@ -2,146 +2,113 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\FasilitasUmum;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FasilitasUmumController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    /** List data */
     public function index()
     {
-        $fasilitas = FasilitasUmum::all();
-        return view('admin.fasilitas.index', compact('fasilitas'));
-    }
+        // Kalau nanti mau paginate: FasilitasUmum::latest()->paginate(10);
+        $fasilitas = FasilitasUmum::latest()->get();
+        return view('fasilitas-admin.index', compact('fasilitas'));    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    /** Form create */
     public function create()
     {
-        return view('admin.fasilitas.create');
+        return view('fasilitas-admin.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-public function store(Request $request)
-{
-    // ✅ 1. Validasi input
-    $validated = $request->validate([
-        'nama' => 'required|string|max:255',
-        'jenis' => 'required',
-        'alamat' => 'required|string',
-        'rt' => 'required',
-        'rw' => 'required',
-        'kapasitas' => 'required|integer',
-        'deskripsi' => 'nullable|string',
-        'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        'sop' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-    ]);
-
-    // ✅ 2. Upload file jika ada
-    if ($request->hasFile('foto')) {
-        $validated['foto'] = $request->file('foto')->store('uploads/fasilitas', 'public');
-    }
-
-    if ($request->hasFile('sop')) {
-        $validated['sop'] = $request->file('sop')->store('uploads/sop', 'public');
-    }
-
-    // ✅ 3. Simpan ke database
-    FasilitasUmum::create($validated);
-
-    // ✅ 4. Redirect + pesan sukses
-    return redirect()->route('fasilitasUmum.index')
-        ->with('success', 'Data fasilitas berhasil ditambahkan!');
-}
-
-
-    
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    /** Simpan data baru */
+    public function store(Request $request)
     {
-        
-    }
+        $data = $this->validateData($request);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-         $fasilitas = FasilitasUmum::findOrFail($id);
-        return view('admin.fasilitas.edit', compact('fasilitas'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'jenis' => 'required',
-            'alamat' => 'required|string',
-            'rt' => 'required',
-            'rw' => 'required',
-            'kapasitas' => 'required|integer',
-            'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'sop' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-        ]);
-
-        $fasilitas = FasilitasUmum::findOrFail($id);
-
-        // Ganti foto lama jika upload baru
+        // Upload file jika ada
         if ($request->hasFile('foto')) {
-            if ($fasilitas->foto && Storage::disk('public')->exists($fasilitas->foto)) {
-                Storage::disk('public')->delete($fasilitas->foto);
-            }
-            $validated['foto'] = $request->file('foto')->store('uploads/fasilitas', 'public');
+            $data['foto'] = $request->file('foto')->store('uploads/fasilitas', 'public');
         }
-
-        // Ganti SOP lama jika upload baru
         if ($request->hasFile('sop')) {
-            if ($fasilitas->sop && Storage::disk('public')->exists($fasilitas->sop)) {
-                Storage::disk('public')->delete($fasilitas->sop);
-            }
-            $validated['sop'] = $request->file('sop')->store('uploads/sop', 'public');
+            $data['sop'] = $request->file('sop')->store('uploads/sop', 'public');
         }
 
-        $fasilitas->update($validated);
+        FasilitasUmum::create($data);
+
+        return redirect()->route('fasilitasUmum.index')
+            ->with('success', 'Data fasilitas berhasil ditambahkan!');
+    }
+
+    /** Tampilkan satu data (opsional) */
+    public function show(FasilitasUmum $fasilitasUmum)
+    {
+        //
+    }
+
+    /** Form edit */
+    public function edit(FasilitasUmum $fasilitasUmum)
+    {
+        return view('fasilitas-admin.edit', ['fasilitas' => $fasilitasUmum]);
+    }
+
+    /** Update data */
+    public function update(Request $request, FasilitasUmum $fasilitasUmum)
+    {
+        $data = $this->validateData($request);
+
+        // Ganti foto bila upload baru
+        if ($request->hasFile('foto')) {
+            if ($fasilitasUmum->foto && Storage::disk('public')->exists($fasilitasUmum->foto)) {
+                Storage::disk('public')->delete($fasilitasUmum->foto);
+            }
+            $data['foto'] = $request->file('foto')->store('uploads/fasilitas', 'public');
+        }
+
+        // Ganti SOP bila upload baru
+        if ($request->hasFile('sop')) {
+            if ($fasilitasUmum->sop && Storage::disk('public')->exists($fasilitasUmum->sop)) {
+                Storage::disk('public')->delete($fasilitasUmum->sop);
+            }
+            $data['sop'] = $request->file('sop')->store('uploads/sop', 'public');
+        }
+
+        $fasilitasUmum->update($data);
 
         return redirect()->route('fasilitasUmum.index')
             ->with('success', 'Data fasilitas berhasil diperbarui!');
     }
 
+    /** Hapus data */
+    public function destroy(FasilitasUmum $fasilitasUmum)
+    {
+        // Hapus file terkait
+        if ($fasilitasUmum->foto && Storage::disk('public')->exists($fasilitasUmum->foto)) {
+            Storage::disk('public')->delete($fasilitasUmum->foto);
+        }
+        if ($fasilitasUmum->sop && Storage::disk('public')->exists($fasilitasUmum->sop)) {
+            Storage::disk('public')->delete($fasilitasUmum->sop);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-   public function destroy(string $id)
-{
-    $fasilitas = FasilitasUmum::findOrFail($id);
+        $fasilitasUmum->delete();
 
-    // Hapus foto dan SOP dari storage kalau ada
-    if ($fasilitas->foto && \Storage::disk('public')->exists($fasilitas->foto)) {
-        \Storage::disk('public')->delete($fasilitas->foto);
+        return redirect()->route('fasilitasUmum.index')
+            ->with('success', 'Data fasilitas berhasil dihapus!');
     }
 
-    if ($fasilitas->sop && \Storage::disk('public')->exists($fasilitas->sop)) {
-        \Storage::disk('public')->delete($fasilitas->sop);
+    /** ------- Helper: aturan validasi tunggal ------- */
+    private function validateData(Request $request): array
+    {
+        return $request->validate([
+            'nama'      => ['required', 'string', 'max:255'],
+            'jenis'     => ['required', 'string', 'max:100'],
+            'alamat'    => ['required', 'string'],
+            'rt'        => ['required', 'string'],   // ganti 'integer' kalau memang angka
+            'rw'        => ['required', 'string'],   // ganti 'integer' kalau memang angka
+            'kapasitas' => ['required', 'integer'],
+            'deskripsi' => ['nullable', 'string'],
+            'foto'      => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'sop'       => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:2048'],
+        ]);
     }
-
-    // Hapus data dari database
-    $fasilitas->delete();
-
-    return redirect()->route('fasilitasUmum.index')
-        ->with('success', 'Data fasilitas berhasil dihapus!');
-}
-
 }

@@ -18,3 +18,5 @@ Route::get('/anggota', function () {
 Route::get('dashboard', [DashboardController::class, 'index'])-> name('dashboard');
 
 Route::resource('fasilitasUmum', FasilitasUmumController::class);
+
+//

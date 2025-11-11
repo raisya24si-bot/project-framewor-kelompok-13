@@ -14,7 +14,7 @@ return new class extends Migration
     Schema::create('fasilitas_umum', function (Blueprint $table) {
     $table->increments('fasilitas_id');
     $table->string('nama');
-    $table->enum('jenis', ['Aula', 'Lapangan','Mesjid', 'Balai', 'Lainnya']); // aula/lapangan/dll
+    $table->enum('jenis', ['Aula', 'Lapangan','Lainnya']); // aula/lapangan/dll
     $table->string('alamat');
     $table->enum('rt', ['1', '2', '3', '4', '5', '6', '7', '8', '9']);
     $table->enum('rw', ['1', '2', '3', '4', '5', '6', '7', '8', '9']);
