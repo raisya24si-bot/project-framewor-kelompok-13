@@ -1,9 +1,13 @@
 <?php
+<<<<<<< HEAD
 
+=======
+>>>>>>> f790496c5bfb9deccc48f33270e6582e533336f1
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+<<<<<<< HEAD
 class DashboardController extends Controller
 {
     /**
@@ -62,3 +66,15 @@ class DashboardController extends Controller
         //
     }
 }
+=======
+
+class DashboardController extends Controller
+    {
+        public function index()
+        {
+            return view('admin.dashboard');
+        }
+    }
+
+?>
+>>>>>>> f790496c5bfb9deccc48f33270e6582e533336f1
