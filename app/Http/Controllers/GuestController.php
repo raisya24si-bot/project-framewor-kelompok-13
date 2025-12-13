@@ -3,122 +3,93 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Guest; // pastikan model Guest sudah ada
+use App\Models\FasilitasUmum;
+use Illuminate\Support\Facades\Auth;   // ← tambahkan baris ini
 
 class GuestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    
+    public function index(Request $request)
     {
-        $guest = Guest::all(); // ambil semua data guest
-        return view('guest.index', compact('guest')); // kirim ke view
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        $search = $request->search; //UNTUK SEARCH
+        $jenis  = $request->jenis; //UNTUK FILTER
+
+        $data = FasilitasUmum::when($search, function ($q) use ($search) {
+                $q->where('nama', 'like', "%$search%")
+                  ->orWhere('alamat', 'like', "%$search%");
+            })
+            ->when($jenis, function ($q) use ($jenis) {
+                $q->where('jenis', $jenis);
+            })
+            ->orderBy('fasilitas_id', 'DESC')
+            ->paginate(4);
+
+        // UBAH: dari fasilitas.index menjadi guest.index
+        return view('guest.index', compact('data', 'search', 'jenis'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('guest.create');
-    }
+    
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function create() {
+    return view('guest.create', ['data' => new FasilitasUmum()]);
+}
+
+
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
+        $request->validate([
+            'nama' => 'required',
             'jenis' => 'required',
-            'alamat' => 'required|string',
+            'alamat' => 'required',
             'rt' => 'required',
             'rw' => 'required',
-            'kapasitas' => 'required|integer',
-            'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'sop' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'kapasitas' => 'required|numeric',
         ]);
 
-        if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('uploads/guest', 'public');
-        }
-
-        if ($request->hasFile('sop')) {
-            $validated['sop'] = $request->file('sop')->store('uploads/sop', 'public');
-        }
-
-        Guest::create($validated);
-
-        return redirect()->route('guest.index')->with('success', 'Data guest berhasil ditambahkan!');
+        FasilitasUmum::create($request->all());
+        
+        // UBAH: route redirect ke guest.index
+        return redirect()->route('guest.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        $guest = Guest::findOrFail($id);
-        return view('guest.edit', compact('guest'));
+        $data = FasilitasUmum::findOrFail($id);
+
+        // UBAH: dari fasilitas.edit menjadi guest.edit
+        return view('guest.edit', compact('data'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'jenis' => 'required',
-            'alamat' => 'required|string',
-            'rt' => 'required',
-            'rw' => 'required',
-            'kapasitas' => 'required|integer',
-            'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'sop' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-        ]);
+        $item = FasilitasUmum::findOrFail($id);
+        $item->update($request->all());
 
-        $guest = Guest::findOrFail($id);
-
-        if ($request->hasFile('foto')) {
-            if ($guest->foto && Storage::disk('public')->exists($guest->foto)) {
-                Storage::disk('public')->delete($guest->foto);
-            }
-            $validated['foto'] = $request->file('foto')->store('uploads/guest', 'public');
-        }
-
-        if ($request->hasFile('sop')) {
-            if ($guest->sop && Storage::disk('public')->exists($guest->sop)) {
-                Storage::disk('public')->delete($guest->sop);
-            }
-            $validated['sop'] = $request->file('sop')->store('uploads/sop', 'public');
-        }
-
-        $guest->update($validated);
-
-        return redirect()->route('guest.index')->with('success', 'Data guest berhasil diperbarui!');
+        // UBAH: route redirect ke guest.index
+        return redirect()->route('guest.index')->with('success', 'Data berhasil diupdate!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $guest = Guest::findOrFail($id);
-
-        if ($guest->foto && Storage::disk('public')->exists($guest->foto)) {
-            Storage::disk('public')->delete($guest->foto);
-        }
-
-        if ($guest->sop && Storage::disk('public')->exists($guest->sop)) {
-            Storage::disk('public')->delete($guest->sop);
-        }
-
-        $guest->delete();
-
-        return redirect()->route('guest.index')->with('success', 'Data guest berhasil dihapus!');
+        FasilitasUmum::destroy($id);
+        
+        // UBAH: route redirect ke guest.index
+        return redirect()->route('guest.index')->with('success', 'Data berhasil dihapus!');
     }
+    public function show($id)
+{
+    // Karena Anda mungkin tidak butuh halaman detail (hanya butuh index & edit),
+    // kita bisa redirect saja kembali ke halaman index, atau tampilkan view kosong.
+    
+    // Opsi 1: Kembalikan ke halaman index (Paling Aman)
+    return redirect()->route('guest.index');
+
+    // Opsi 2: Jika nanti mau dibuatkan halaman detail:
+    // $data = \App\Models\FasilitasUmum::findOrFail($id);
+    // return view('guest.show', compact('data'));
+}
+
 }
