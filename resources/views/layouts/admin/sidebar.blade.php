@@ -15,9 +15,9 @@
       </a>
       <div class="collapse" id="ui-basic">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/ui-features/buttons.html') }}">Buttons</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/ui-features/dropdowns.html') }}">Dropdowns</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/ui-features/typography.html') }}">Typography</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/ui-features/buttons.html') }}">Buttons</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/ui-features/dropdowns.html') }}">Dropdowns</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/ui-features/typography.html') }}">Typography</a></li>
         </ul>
       </div>
     </li>
@@ -30,7 +30,7 @@
       </a>
       <div class="collapse" id="form-elements">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/forms/basic_elements.html') }}">Basic Elements</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/forms/basic_elements.html') }}">Basic Elements</a></li>
         </ul>
       </div>
     </li>
@@ -43,7 +43,7 @@
       </a>
       <div class="collapse" id="charts">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/charts/chartjs.html') }}">ChartJs</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/charts/chartjs.html') }}">ChartJs</a></li>
         </ul>
       </div>
     </li>
@@ -56,7 +56,7 @@
       </a>
       <div class="collapse" id="tables">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/tables/basic-table.html') }}">Basic table</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/tables/basic-table.html') }}">Basic table</a></li>
         </ul>
       </div>
     </li>
@@ -69,7 +69,7 @@
       </a>
       <div class="collapse" id="icons">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/icons/mdi.html') }}">Mdi icons</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/icons/mdi.html') }}">Mdi icons</a></li>
         </ul>
       </div>
     </li>
@@ -82,8 +82,8 @@
       </a>
       <div class="collapse" id="auth">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/samples/login.html') }}">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/samples/register.html') }}">Register</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/samples/login.html') }}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/samples/register.html') }}">Register</a></li>
         </ul>
       </div>
     </li>
@@ -96,14 +96,14 @@
       </a>
       <div class="collapse" id="error">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/samples/error-404.html') }}">404</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitas-admin/pages/samples/error-500.html') }}">500</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/samples/error-404.html') }}">404</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ asset('fasilitasUmum/pages/samples/error-500.html') }}">500</a></li>
         </ul>
       </div>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="{{ asset('fasilitas-admin/pages/documentation/documentation.html') }}">
+      <a class="nav-link" href="{{ asset('fasilitasUmum/pages/documentation/documentation.html') }}">
         <i class="icon-paper menu-icon"></i><span class="menu-title">Documentation</span>
       </a>
     </li>

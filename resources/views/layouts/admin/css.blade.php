@@ -5,21 +5,21 @@
 <title>@yield('title', 'Skydash Admin')</title>
 
 <!-- plugins:css -->
-<link rel="stylesheet" href="{{ asset('fasilitas-admin/vendors/feather/feather.css') }}">
-<link rel="stylesheet" href="{{ asset('fasilitas-admin/vendors/ti-icons/css/themify-icons.css') }}">
-<link rel="stylesheet" href="{{ asset('fasilitas-admin/vendors/css/vendor.bundle.base.css') }}">
+<link rel="stylesheet" href="{{ asset('fasilitasUmum/vendors/feather/feather.css') }}">
+<link rel="stylesheet" href="{{ asset('fasilitasUmum/vendors/ti-icons/css/themify-icons.css') }}">
+<link rel="stylesheet" href="{{ asset('fasilitasUmum/vendors/css/vendor.bundle.base.css') }}">
 <!-- endinject -->
 
 <!-- Plugin css for this page -->
-<link rel="stylesheet" href="{{ asset('fasilitas-admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('fasilitas-admin/js/select.dataTables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('fasilitasUmum/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('fasilitasUmum/js/select.dataTables.min.css') }}">
 <!-- End plugin css -->
 
 <!-- inject:css -->
-<link rel="stylesheet" href="{{ asset('fasilitas-admin/css/vertical-layout-light/style.css') }}">
+<link rel="stylesheet" href="{{ asset('fasilitasUmum/css/vertical-layout-light/style.css') }}">
 <!-- endinject -->
 
-<link rel="shortcut icon" href="{{ asset('fasilitas-admin/images/favicon.png') }}" />
+<link rel="shortcut icon" href="{{ asset('fasilitasUmum/images/favicon.png') }}" />
 
 <!-- ✅ Custom CSS tambahan untuk tampilan modern -->
 <style>

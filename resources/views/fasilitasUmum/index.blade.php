@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.admin.app_acuas')
 
 @section('title', 'Data Peminjaman Fasilitas Umum')
 

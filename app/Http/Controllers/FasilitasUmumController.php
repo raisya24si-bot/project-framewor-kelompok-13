@@ -9,17 +9,19 @@ use Illuminate\Support\Facades\Storage;
 class FasilitasUmumController extends Controller
 {
     /** List data */
-    public function index()
-    {
-        // Kalau nanti mau paginate: FasilitasUmum::latest()->paginate(10);
-        $fasilitas = FasilitasUmum::latest()->get();
-        return view('fasilitas-admin.index', compact('fasilitas'));    }
+    /** List data */
+public function index()
+{
+    // Kalau nanti mau paginate: FasilitasUmum::latest()->paginate(10);
+    $fasilitas = FasilitasUmum::latest()->get();
 
-    /** Form create */
-    public function create()
-    {
-        return view('fasilitas-admin.create');
+    if (request('view') === 'table') {
+        return view('fasilitasUmum.index', compact('fasilitas')); // tabel (default awal)
     }
+
+    return view('fasilitasUmum.index_card', compact('fasilitas')); // card (baru)
+}
+
 
     /** Simpan data baru */
     public function store(Request $request)
@@ -49,7 +51,7 @@ class FasilitasUmumController extends Controller
     /** Form edit */
     public function edit(FasilitasUmum $fasilitasUmum)
     {
-        return view('fasilitas-admin.edit', ['fasilitas' => $fasilitasUmum]);
+        return view('fasilitasUmum.edit', ['fasilitas' => $fasilitasUmum]);
     }
 
     /** Update data */

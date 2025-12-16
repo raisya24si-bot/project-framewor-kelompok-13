@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.admin.app_acuas')
 @section('title', 'Edit Data Fasilitas Umum')
 
 @section('content')
@@ -57,6 +57,7 @@
                 <form action="{{ route('fasilitasUmum.update', $fasilitas->fasilitas_id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+                    <input type="hidden" name="redirect" value="{{ request('redirect') }}">
 
                     <div class="row">
                         {{-- Kolom Kiri --}}

@@ -1,19 +1,8 @@
-<!-- Google Web Fonts -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 
-<!-- Icon Font Stylesheet -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-<!-- Libraries Stylesheet -->
-{{-- Perhatikan perubahan 'assets' menjadi 'assets-guest' di bawah ini --}}
-<link href="{{ asset('assets-guest/lib/animate/animate.min.css') }}" rel="stylesheet">
-<link href="{{ asset('assets-guest/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-
-<!-- Customized Bootstrap Stylesheet -->
-<link href="{{ asset('assets-guest/css/bootstrap.min.css') }}" rel="stylesheet">
-
-<!-- Template Stylesheet -->
-<link href="{{ asset('assets-guest/css/style.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('acuas/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('acuas/css/style.css') }}">

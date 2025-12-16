@@ -31,7 +31,8 @@ class AuthController extends Controller
     // Simpan jam terakhir login ke session
     session(['last_login' => now()]);
 
-    return redirect()->route('guest.index')->with('success', 'Login berhasil!');
+    return redirect()->route('guest.index')->with('success','Login berhasil!');
+
 } else {
     return back()->withErrors(['email' => 'Email atau password salah'])->withInput();
 }
