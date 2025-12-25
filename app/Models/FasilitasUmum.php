@@ -22,3 +22,4 @@ class FasilitasUmum extends Model
         'sop',
     ];
 }
+
